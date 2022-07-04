@@ -20,8 +20,8 @@ public class GettingOrdersFromUserTest {
         orderClient = new OrderClient();
         userClient = new UserClient();
         user = User.getRandom();
-        String accessTokenFull = userClient.create(user.toString()).then().extract().body().path("accessToken");
-        accessToken = accessTokenFull.substring(7, 178);
+        String accessTokenFull = userClient.create(user).then().extract().body().path("accessToken");
+        accessToken = accessTokenFull;
         if (accessToken != null) {
             TokenInfo.setAccessToken(accessToken);
         }

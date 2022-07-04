@@ -1,9 +1,8 @@
 package User;
 
-import lombok.Data;
 import org.apache.commons.lang3.RandomStringUtils;
 
-public @Data class User {
+public class User {
 
     public String login;
     public String password;

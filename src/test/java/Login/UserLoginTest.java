@@ -21,14 +21,14 @@ public class UserLoginTest {
     public void setUp() {
         userClient = new UserClient();
         user = User.getRandom();
-        userClient.create(user.toString());
+        userClient.create(user);
     }
     @After
     public void tearDown() {
         JsonElement accessTokenFull = userClient.login(UserCredentials.from(user).toString()).thenReturn()
                 .body().as(JsonObject.class).get("accessToken");
         if (accessTokenFull != null) {
-            String accessToken = accessTokenFull.toString().substring(8, 179);
+            String accessToken = accessTokenFull.toString();
             TokenInfo.setAccessToken(accessToken);
             userClient.delete().then().statusCode(202);
         }

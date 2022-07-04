@@ -10,7 +10,7 @@ public class UserClient extends RestAssureUser {
 
 
 
-    public static Response create(String user) {
+    public static Response create(User user) {
         return given()
                 .spec(getBaseSpec())
                 .body(user)

@@ -23,10 +23,10 @@ public class UnauthorizedChangeDataTest {
     public void setUp() {
         userClient = new UserClient();
         user = User.getRandom();
-        userClient.create(user.toString());
+        userClient.create(user);
         JsonElement accessTokenFull = userClient.login(UserCredentials.from(user).toString()).thenReturn()
                 .body().as(JsonObject.class).get("accessToken");
-        accessToken = accessTokenFull.toString().substring(8, 179);
+        accessToken = accessTokenFull.toString();
         TokenInfo.setAccessToken(accessToken);
     }
 

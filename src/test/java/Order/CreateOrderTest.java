@@ -21,8 +21,8 @@ public class CreateOrderTest {
         orderClient = new OrderClient();
         userClient = new UserClient();
         user = User.getRandom();
-        String accessTokenFull = userClient.create(user.toString()).then().extract().body().path("accessToken");
-        accessToken = accessTokenFull.substring(7, 178);
+        String accessTokenFull = userClient.create(user).then().extract().body().path("accessToken");
+        accessToken = accessTokenFull;
         if (accessToken != null) {
             TokenInfo.setAccessToken(accessToken);
         }
@@ -36,7 +36,7 @@ public class CreateOrderTest {
     }
 
     @Test // Создание заказа авторизаванным пользователем с ингридиентами
-    public void AuthorizedСreateOrderWithIngredientsTest() {
+    public void authorizedСreateOrderWithIngredientsTest() {
         orderClient.ingredientCreate();
         orderClient.createOrderAuthorized().then().assertThat()
                 .statusCode(200)
@@ -45,7 +45,7 @@ public class CreateOrderTest {
     }
 
     @Test // Создание заказа без ингридиентов
-    public void AuthorizedСreateOrderWithoutIngredientsTest() {
+    public void authorizedСreateOrderWithoutIngredientsTest() {
         orderClient.json = "{" + "\"ingredients\":[]" + "}";
         orderClient.createOrderAuthorized().then().assertThat()
                 .statusCode(400)
@@ -54,7 +54,7 @@ public class CreateOrderTest {
     }
 
     @Test // Создание заказа неавторизованным пользователем
-    public void UnauthorizedCreateOrderTest() {
+    public void unauthorizedCreateOrderTest() {
         orderClient.ingredientCreate();
         orderClient.createOrderUnauthorized().then().assertThat()
                 .statusCode(200)
@@ -63,7 +63,7 @@ public class CreateOrderTest {
     }
 
     @Test // Создание заказа с неверным хешем ингредиентов
-    public void InvalidIngredientsOrderCreateTest() {
+    public void invalidIngredientsOrderCreateTest() {
         IngredientList ingredientList = new IngredientList();
         ingredientList = ingredientList.getAllIngredients();
         String ingredientOrder = ingredientList.getData().get(1).get_id();

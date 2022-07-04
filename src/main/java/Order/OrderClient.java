@@ -8,20 +8,20 @@ import static io.restassured.RestAssured.given;
 
 public class OrderClient extends RestAssureUser {
     public static final String ORDER_PATH = URL + "orders/";
-    String json;
+    Object json;
     IngredientList ingredientList = new IngredientList();
 
 
     public String ingredientCreate() {
         ingredientList.ingredientRequestCreate();
         json = "{" + ingredientList.orderRequest + "}";
-        return json;
+        return (String) json;
     }
 
     public Response createOrderAuthorized() {
         return given()
                 .spec(getBaseSpec())
-                .auth().oauth2(TokenInfo.getAccessToken())
+                .header("Authorization", TokenInfo.getAccessToken())
                 .body(json)
                 .post(ORDER_PATH);
     }
@@ -29,7 +29,7 @@ public class OrderClient extends RestAssureUser {
     public Response getUserOrderAuthorized() {
         return given()
                 .spec(getBaseSpec())
-                .auth().oauth2(TokenInfo.getAccessToken())
+                .header("Authorization", TokenInfo.getAccessToken())
                 .get(ORDER_PATH);
     }
 

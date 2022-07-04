@@ -1,8 +1,7 @@
 package User;
 
-import lombok.Data;
 
-public @Data class TokenInfo {
+public class TokenInfo {
     private static String accessToken;
     private static String refreshToken;
 

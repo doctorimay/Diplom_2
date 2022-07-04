@@ -9,16 +9,9 @@ public class UserCredentials {
         this.password = password;
     }
 
-    public UserCredentials(User user) {
-        this.login = user.getLogin();
-        this.password = user.getPassword();
-    }
-
     public static UserCredentials from (User user){
-        return new UserCredentials(user);
+        return new UserCredentials(user.login, user.password);
     }
-
-
     @Override
     public String toString() {
         return "{\"" +
