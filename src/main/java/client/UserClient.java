@@ -13,7 +13,7 @@ public class UserClient extends RestAssureClient {
 
 
 
-    public ValidatableResponse create(User user) {
+    public static ValidatableResponse create(User user) {
         String registerRequestBody = null;
 
         try {
@@ -30,7 +30,7 @@ public class UserClient extends RestAssureClient {
     }
 
 
-    public ValidatableResponse login(UserCredentials userCredentials) {
+    public static ValidatableResponse login(UserCredentials userCredentials) {
         return given()
                 .spec(getBaseSpec())
                 .body(userCredentials)
@@ -40,7 +40,7 @@ public class UserClient extends RestAssureClient {
     }
 
 
-    public ValidatableResponse change(String accessToken, User user) {
+    public static ValidatableResponse change(String accessToken, User user) {
         return given()
                 .headers("Authorization", accessToken)
                 .spec(getBaseSpec())
@@ -50,7 +50,7 @@ public class UserClient extends RestAssureClient {
 
     }
 
-    public ValidatableResponse delete(String accessToken) {
+    public static ValidatableResponse delete(String accessToken) {
         return given()
                 .headers("Authorization", accessToken)
                 .spec(getBaseSpec())

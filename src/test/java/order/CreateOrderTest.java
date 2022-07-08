@@ -29,28 +29,28 @@ public class CreateOrderTest {
     public void setUp() {
         userClient = new UserClient();
         user = User.getRandomUser();
-        userClient.create(user);
+        UserClient.create(user);
         orderClient = new OrderClient();
     }
 
     @After
     public void tearDown() {
         if (accessToken != null) {
-            userClient.delete(accessToken);
+            UserClient.delete(accessToken);
         }
     }
 
 
     @Test // Создание заказа авторизаванным пользователем с ингридиентами
-    public void authorizedСreateOrderWithIngredientsTest() {
+    public void authorizedCreateOrderWithIngredientsTest() {
         UserCredentials userCredentials = UserCredentials.builder()
                 .email(user.getEmail())
                 .password(user.getPassword())
                 .build();
-        ValidatableResponse loginResponse = userClient.login(userCredentials);
+        ValidatableResponse loginResponse = UserClient.login(userCredentials);
         accessToken = loginResponse.extract().path("accessToken");
 
-        ValidatableResponse orderResponse = orderClient.createOrderAuthorized(new Order(List.of("61c0c5a71d1f82001bdaaa6d", "61c0c5a71d1f82001bdaaa6f", "61c0c5a71d1f82001bdaaa72")), accessToken);
+        ValidatableResponse orderResponse = OrderClient.createOrderAuthorized(new Order(List.of("61c0c5a71d1f82001bdaaa6d", "61c0c5a71d1f82001bdaaa6f", "61c0c5a71d1f82001bdaaa72")), accessToken);
         int statusCode = orderResponse.extract().statusCode();
         boolean success = orderResponse.extract().path("success");
         String burgerName = orderResponse.extract().path("name");
@@ -64,14 +64,14 @@ public class CreateOrderTest {
 
 
     @Test // Создание заказа без ингридиентов
-    public void authorizedСreateOrderWithoutIngredientsTest() {
+    public void authorizedCreateOrderWithoutIngredientsTest() {
         UserCredentials credentials = UserCredentials.builder()
                 .email(user.getEmail())
                 .password(user.getPassword())
                 .build();
-        ValidatableResponse loginResponse = userClient.login(credentials);
+        ValidatableResponse loginResponse = UserClient.login(credentials);
         accessToken = loginResponse.extract().path("accessToken");
-        ValidatableResponse orderResponse = orderClient.createOrderAuthorized(new Order(List.of()), accessToken);
+        ValidatableResponse orderResponse = OrderClient.createOrderAuthorized(new Order(List.of()), accessToken);
         int statusCode = orderResponse.extract().statusCode();
         boolean success = orderResponse.extract().path("success");
         String message = orderResponse.extract().path("message");
@@ -82,7 +82,7 @@ public class CreateOrderTest {
 
     @Test // Создание заказа неавторизованным пользователем
     public void unauthorizedCreateOrderTest() {
-        ValidatableResponse orderResponse = orderClient.createOrderUnauthorized(new Order(List.of("61c0c5a71d1f82001bdaaa6d", "61c0c5a71d1f82001bdaaa6f", "61c0c5a71d1f82001bdaaa72")));
+        ValidatableResponse orderResponse = OrderClient.createOrderUnauthorized(new Order(List.of("61c0c5a71d1f82001bdaaa6d", "61c0c5a71d1f82001bdaaa6f", "61c0c5a71d1f82001bdaaa72")));
         int statusCode = orderResponse.extract().statusCode();
         boolean success = orderResponse.extract().path("success");
         String burgerName = orderResponse.extract().path("name");
@@ -100,9 +100,9 @@ public class CreateOrderTest {
                 .email(user.getEmail())
                 .password(user.getPassword())
                 .build();
-        ValidatableResponse loginResponse = userClient.login(credentials);
+        ValidatableResponse loginResponse = UserClient.login(credentials);
         accessToken = loginResponse.extract().path("accessToken");
-        ValidatableResponse orderResponse = orderClient.createOrderAuthorized(new Order(List.of("61c0c5a71d1f82001bdaaa6", "61c0c5a71d1f8201bdaaa6f", "61c0c5a71d1f8001bdaaa72")), accessToken);
+        ValidatableResponse orderResponse = OrderClient.createOrderAuthorized(new Order(List.of("61c0c5a71d1f82001bdaaa6", "61c0c5a71d1f8201bdaaa6f", "61c0c5a71d1f8001bdaaa72")), accessToken);
         int statusCode = orderResponse.extract().statusCode();
         assertThat("User has created", statusCode, equalTo(SC_INTERNAL_SERVER_ERROR));
     }

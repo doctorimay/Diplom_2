@@ -30,14 +30,14 @@ public class CreateUserTest {
     @After
     public void tearDown() {
         if (accessToken != null) {
-            userClient.delete(accessToken);
+            UserClient.delete(accessToken);
         }
     }
 
     @Test // создать уникального пользователя;
     public void isUserCanCreatedTest() {
         user = User.getRandomUser();
-        ValidatableResponse createResponse = userClient.create(user);
+        ValidatableResponse createResponse = UserClient.create(user);
         int statusCode = createResponse.extract().statusCode();
         boolean success = createResponse.extract().path("success");
         String accessToken = createResponse.extract().path("accessToken");
@@ -56,8 +56,8 @@ public class CreateUserTest {
     @Test // создать пользователя, который уже зарегистрирован;
     public void itIsNotPossibleToCreateIdenticalUsersTest() {
         user = User.getRandomUser();
-        userClient.create(user);
-        ValidatableResponse createResponse = userClient.create(user);
+        UserClient.create(user);
+        ValidatableResponse createResponse = UserClient.create(user);
         int statusCode = createResponse.extract().statusCode();
         boolean success = createResponse.extract().path("success");
         String message = createResponse.extract().path("message");
@@ -72,7 +72,7 @@ public class CreateUserTest {
                 .email(RandomStringUtils.randomAlphabetic(7) + "@google.com")
                 .name(RandomStringUtils.randomAlphabetic(10))
                 .build();
-        ValidatableResponse createResponse = userClient.create(user);
+        ValidatableResponse createResponse = UserClient.create(user);
         int statusCode = createResponse.extract().statusCode();
         boolean success = createResponse.extract().path("success");
         String message = createResponse.extract().path("message");

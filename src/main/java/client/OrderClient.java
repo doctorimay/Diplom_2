@@ -11,7 +11,7 @@ public class OrderClient extends RestAssureClient {
     public static final String ORDER_PATH = URL + "orders/";
 
 
-    public ValidatableResponse createOrderAuthorized(Order order, String accessToken) {
+    public static ValidatableResponse createOrderAuthorized(Order order, String accessToken) {
         return given()
                 .spec(getBaseSpec())
                 .headers("Authorization", accessToken)
@@ -20,7 +20,7 @@ public class OrderClient extends RestAssureClient {
                 .then();
     }
 
-    public ValidatableResponse getUserOrderAuthorized(String accessToken) {
+    public static ValidatableResponse getUserOrderAuthorized(String accessToken) {
         return given()
                 .spec(getBaseSpec())
                 .headers("Authorization", accessToken)
@@ -28,7 +28,7 @@ public class OrderClient extends RestAssureClient {
                 .then();
     }
 
-    public ValidatableResponse createOrderUnauthorized(Order order) {
+    public static ValidatableResponse createOrderUnauthorized(Order order) {
         return given()
                 .spec(getBaseSpec())
                 .body(order)
@@ -37,7 +37,7 @@ public class OrderClient extends RestAssureClient {
 
     }
 
-    public ValidatableResponse  getUserOrderUnauthorized() {
+    public static ValidatableResponse  getUserOrderUnauthorized() {
         return given()
                 .spec(getBaseSpec())
                 .get(ORDER_PATH)

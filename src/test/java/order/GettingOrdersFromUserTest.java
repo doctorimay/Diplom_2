@@ -28,7 +28,7 @@ public class GettingOrdersFromUserTest {
     public void setUp() {
         userClient = new UserClient();
         user = User.getRandomUser();
-        userClient.create(user);
+        UserClient.create(user);
         orderClient = new OrderClient();
 
     }
@@ -36,7 +36,7 @@ public class GettingOrdersFromUserTest {
     @After
     public void tearDown() {
         if (accessToken != null) {
-            userClient.delete(accessToken);
+            UserClient.delete(accessToken);
         }
     }
 
@@ -46,9 +46,9 @@ public class GettingOrdersFromUserTest {
                 .email(user.getEmail())
                 .password(user.getPassword())
                 .build();
-        ValidatableResponse loginResponse = userClient.login(userCredentials);
+        ValidatableResponse loginResponse = UserClient.login(userCredentials);
         accessToken = loginResponse.extract().path("accessToken");
-        Response orderResponse = orderClient.getUserOrderAuthorized(accessToken);
+        Response orderResponse = OrderClient.getUserOrderAuthorized(accessToken);
         int statusCode = orderResponse.statusCode();
         boolean success = orderResponse.path("success");
         String total = orderResponse.path("total");
@@ -59,7 +59,7 @@ public class GettingOrdersFromUserTest {
 
     @Test // получение заказов неавторизованного пользователя
     public void getUnauthorizedUserOrderTest() {
-        Response orderResponse = orderClient.getUserOrderUnauthorized();
+        Response orderResponse = OrderClient.getUserOrderUnauthorized();
         int statusCode = orderResponse.statusCode();
         boolean success = orderResponse.path("success");
         String message = orderResponse.path("message");

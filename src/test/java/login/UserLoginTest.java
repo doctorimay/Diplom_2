@@ -29,13 +29,13 @@ public class  UserLoginTest {
     public void setUp() {
         userClient = new UserClient();
         user = new User(email, password, "TestName");
-        userClient.create(user);
+        UserClient.create(user);
     }
 
     @After
     public void tearDown() {
         if (accessToken != null) {
-            userClient.delete(accessToken);
+            UserClient.delete(accessToken);
         }
     }
 
@@ -45,7 +45,7 @@ public class  UserLoginTest {
                 .email(user.getEmail())
                 .password(user.getPassword())
                 .build();
-        ValidatableResponse loginResponse = userClient.login(credentials);
+        ValidatableResponse loginResponse = UserClient.login(credentials);
 
         int statusCode = loginResponse.extract().statusCode();
         boolean success = loginResponse.extract().path("success");
@@ -68,7 +68,7 @@ public class  UserLoginTest {
                 .email(user.getEmail())
                 .password(user.getPassword() + "5")
                 .build();
-        ValidatableResponse loginResponse = userClient.login(userCredentials);
+        ValidatableResponse loginResponse = UserClient.login(userCredentials);
 
         int statusCode = loginResponse.extract().statusCode();
         boolean success = loginResponse.extract().path("success");

@@ -27,14 +27,14 @@ public class UserDataChangeTest {
     public void setUp() {
         userClient = new UserClient();
         user = User.getRandomUser();
-        userClient.create(user);
+        UserClient.create(user);
 
     }
 
     @After
     public void tearDown() {
         if (accessToken != null) {
-            userClient.delete(accessToken);
+            UserClient.delete(accessToken);
         }
     }
 
@@ -45,10 +45,10 @@ public class UserDataChangeTest {
                 .email(user.getEmail())
                 .password(user.getPassword())
                 .build();
-        loginResponse = userClient.login(credentials);
+        loginResponse = UserClient.login(credentials);
         accessToken = loginResponse.extract().path("accessToken");
         User newUser = User.getRandomUser();
-        ValidatableResponse updateResponse = userClient.change(accessToken, newUser);
+        ValidatableResponse updateResponse = UserClient.change(accessToken, newUser);
 
         int statusCode = updateResponse.extract().statusCode();
         boolean success = updateResponse.extract().path("success");
@@ -65,7 +65,7 @@ public class UserDataChangeTest {
     public void changeUserDataNegativeTest() {
         accessToken = "";
         User newUser = User.getRandomUser();
-        ValidatableResponse updateResponse = userClient.change(accessToken, newUser);
+        ValidatableResponse updateResponse = UserClient.change(accessToken, newUser);
 
         int statusCode = updateResponse.extract().statusCode();
         boolean success = updateResponse.extract().path("success");
