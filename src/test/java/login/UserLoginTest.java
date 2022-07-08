@@ -20,7 +20,7 @@ import static org.hamcrest.Matchers.notNullValue;
 public class  UserLoginTest {
 
     UserClient userClient;
-    private User user;
+    public User user;
     final String email = RandomStringUtils.randomAlphabetic(10) + "@google.com";
     final String password = RandomStringUtils.randomAlphabetic(10);
     String accessToken;
@@ -42,7 +42,7 @@ public class  UserLoginTest {
     @Test //логин под существующим пользователем,
     public void successfulUserAuthorizationTest() {
         UserCredentials credentials = UserCredentials.builder()
-                .email(user.getEmail())
+                .email(user.getEmail().toLowerCase())
                 .password(user.getPassword())
                 .build();
         ValidatableResponse loginResponse = UserClient.login(credentials);

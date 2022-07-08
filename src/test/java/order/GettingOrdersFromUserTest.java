@@ -11,17 +11,17 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-import static org.apache.http.HttpStatus.SC_OK;
 import static org.apache.http.HttpStatus.SC_UNAUTHORIZED;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 
 public class GettingOrdersFromUserTest {
-    private UserClient userClient;
-    private OrderClient orderClient;
-    private User user;
+    UserClient userClient;
+    OrderClient orderClient;
+    User user;
     String accessToken;
 
     @Before
@@ -48,13 +48,11 @@ public class GettingOrdersFromUserTest {
                 .build();
         ValidatableResponse loginResponse = UserClient.login(userCredentials);
         accessToken = loginResponse.extract().path("accessToken");
-        Response orderResponse = OrderClient.getUserOrderAuthorized(accessToken);
-        int statusCode = orderResponse.statusCode();
-        boolean success = orderResponse.path("success");
-        String total = orderResponse.path("total");
-        assertThat("User has created", statusCode, equalTo(SC_OK));
-        assertThat("State if courier has created", success, equalTo(true));
-        assertThat("State if courier has created", total, notNullValue());
+        ValidatableResponse response = OrderClient.getUserOrderAuthorized(accessToken);
+        int statusCode = response.extract().statusCode();
+        boolean success = response.extract().path("success");
+        assertEquals("Wrong code", 200, statusCode);
+        assertTrue("Must be true", success);
     }
 
     @Test // получение заказов неавторизованного пользователя
@@ -68,3 +66,5 @@ public class GettingOrdersFromUserTest {
         assertThat("State if courier has created", message, equalTo("You should be authorised"));
     }
 }
+
+

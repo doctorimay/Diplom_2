@@ -9,9 +9,8 @@ import model.UserCredentials;
 import static io.restassured.RestAssured.given;
 
 public class UserClient extends RestAssureClient {
+
     public static final String PATH = URL + "auth/";
-
-
 
     public static ValidatableResponse create(User user) {
         String registerRequestBody = null;
@@ -29,34 +28,33 @@ public class UserClient extends RestAssureClient {
                 .then();
     }
 
-
     public static ValidatableResponse login(UserCredentials userCredentials) {
+
         return given()
                 .spec(getBaseSpec())
                 .body(userCredentials)
-                .post(PATH + "login/")
+                .when()
+                .post(PATH + "login")
                 .then();
-
     }
 
 
     public static ValidatableResponse change(String accessToken, User user) {
         return given()
-                .headers("Authorization", accessToken)
+                .header("Authorization", accessToken)
                 .spec(getBaseSpec())
                 .body(user)
-                .patch(PATH + "user/")
+                .when()
+                .patch(PATH + "user")
                 .then();
-
     }
 
     public static ValidatableResponse delete(String accessToken) {
         return given()
-                .headers("Authorization", accessToken)
+                .header("Authorization", accessToken)
                 .spec(getBaseSpec())
-                .delete(PATH + "user/")
+                .when()
+                .delete(PATH + "user")
                 .then();
     }
-
-
 }

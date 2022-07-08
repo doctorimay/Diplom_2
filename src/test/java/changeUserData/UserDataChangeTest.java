@@ -57,7 +57,7 @@ public class UserDataChangeTest {
 
         assertThat("Status code is not correct", statusCode, equalTo(SC_OK));
         assertThat("The data must be changed", success, equalTo(true));
-        assertThat("Email is not correct", email, equalTo(newUser.getEmail()));
+        assertThat("Email is not correct", email, equalTo(newUser.getEmail().toLowerCase()));
         assertThat("Name is not correct", name, equalTo(newUser.getName()));
     }
 

@@ -19,7 +19,7 @@ import static org.hamcrest.Matchers.equalTo;
 public class CreateUserTest {
 
     UserClient userClient;
-    private User user;
+    User user;
     String accessToken;
 
     @Before
@@ -48,7 +48,7 @@ public class CreateUserTest {
         assertThat("User not created", success, equalTo(true));
         assertThat("AccessToken is not correct", accessToken, startsWith("Bearer"));
         assertThat("RefreshToken is not correct", refreshToken, notNullValue());
-        assertThat("Email is not correct ", email, equalTo(user.getEmail()));
+        assertThat("Email is not correct ", email, equalTo(user.getEmail().toLowerCase()));
         assertThat("Name is not correct", name, equalTo(user.getName()));
     }
 
